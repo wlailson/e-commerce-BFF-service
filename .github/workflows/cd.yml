@@ -74,11 +74,11 @@ jobs:
       - name: Build Docker image
         run: |
           docker build \
-            -t wlailson/e-commerce-BFF-service:latest \
-            -t wlailson/e-commerce-BFF-service:${{ steps.version.outputs.version }} \
+            -t wlailson/e-commerce-bff-service:latest \
+            -t wlailson/e-commerce-bff-service:${{ steps.version.outputs.version }} \
             .
 
       - name: Push Docker images
         run: |
-          docker push wlailson/e-commerce-BFF-service:latest
-          docker push wlailson/e-commerce-BFF-service:${{ steps.version.outputs.version }}
+          docker push wlailson/e-commerce-bff-service:latest
+          docker push wlailson/e-commerce-bff-service:${{ steps.version.outputs.version }}
