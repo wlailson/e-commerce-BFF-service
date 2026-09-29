@@ -1,11 +1,15 @@
 package io.wlailson.github.e_commerce_BFF_service.service;
 
-import io.wlailson.github.e_commerce_BFF_service.infra.client.api.UserRequestDTO;
-import io.wlailson.github.e_commerce_BFF_service.infra.client.api.UserResponseDTO;
-import io.wlailson.github.e_commerce_BFF_service.infra.client.userclient.IdentityClient;
+import io.wlailson.github.e_commerce_BFF_service.api.identity.UserRequestDTO;
+import io.wlailson.github.e_commerce_BFF_service.api.identity.LoginRequestDTO;
+import io.wlailson.github.e_commerce_BFF_service.api.identity.UserResponseDTO;
+import io.wlailson.github.e_commerce_BFF_service.api.identity.UserResponseMinDTO;
+import io.wlailson.github.e_commerce_BFF_service.clients.IdentityClient;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @RequiredArgsConstructor
 @Service
@@ -13,7 +17,31 @@ public class IdentityService {
 
     private final IdentityClient client;
 
-    public UserResponseDTO postUser(@RequestBody UserRequestDTO request) {
+    public ResponseEntity<UserResponseDTO> getUserById(Long userId) {
+        return client.getUserById(userId);
+    }
+
+    public ResponseEntity<Page<UserResponseMinDTO>> getAllUsers(Pageable pageable) {
+        return client.getAllUsers(pageable);
+    }
+
+    public ResponseEntity<UserResponseDTO> getCurrentUser() {
+        return client.getCurrentUser();
+    }
+
+    public ResponseEntity<UserResponseDTO> postUser(UserRequestDTO request) {
         return client.postUser(request);
+    }
+
+    public ResponseEntity<String> login(LoginRequestDTO request) {
+        return client.login(request);
+    }
+
+    public ResponseEntity<UserResponseDTO> putUser(Long userId, UserRequestDTO request) {
+        return client.putUser(userId, request);
+    }
+
+    public ResponseEntity<Void> deleteUser(Long userId) {
+        return client.deleteUser(userId);
     }
 }

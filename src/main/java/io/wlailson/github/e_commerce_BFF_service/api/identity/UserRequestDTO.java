@@ -1,4 +1,4 @@
-package io.wlailson.github.e_commerce_BFF_service.infra.client.api;
+package io.wlailson.github.e_commerce_BFF_service.api.identity;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

@@ -1,0 +1,19 @@
+services:
+
+  BFF-service:
+    image: ${IMAGE_NAME}:${IMAGE_TAG}
+    build: .
+    container_name: BFF-service
+    restart: unless-stopped
+    ports:
+      - "${SPRING_EXTERNAL_PORT}:8080"
+    environment:
+      SERVER_PORT: ${SERVER_PORT}
+      JWT_PUBLIC_KEY: ${JWT_PUBLIC_KEY:?Set JWT_PUBLIC_KEY to the RSA public key PEM or Base64 value}
+      CORS_ORIGINS: ${CORS_ORIGINS}
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  BFF_postgres_data:

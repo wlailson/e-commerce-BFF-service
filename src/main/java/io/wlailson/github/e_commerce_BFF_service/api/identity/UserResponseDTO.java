@@ -1,4 +1,4 @@
-package io.wlailson.github.e_commerce_BFF_service.infra.client.api;
+package io.wlailson.github.e_commerce_BFF_service.api.identity;
 
 import java.time.LocalDate;
 import java.util.List;
