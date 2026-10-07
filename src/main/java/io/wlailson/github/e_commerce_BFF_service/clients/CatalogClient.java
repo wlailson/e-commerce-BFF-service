@@ -7,8 +7,9 @@ import jakarta.validation.Valid;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @FeignClient(
         value = "catalog-service",
@@ -18,24 +19,28 @@ import org.springframework.web.bind.annotation.*;
 public interface CatalogClient {
 
     @GetMapping("/{productId}")
-    ResponseEntity<ProductDTO> findById(@PathVariable Long productId);
+    ProductDTO findById(@PathVariable Long productId);
 
     @GetMapping
-    ResponseEntity<Page<ProductMinDTO>> findAll(
+    Page<ProductMinDTO> findAll(
             @RequestParam(name = "name", defaultValue = "")
             String name,
             Pageable pageable);
 
     @PostMapping
-    ResponseEntity<ProductDTO> insert(@Valid @RequestBody ProductDTO request);
+    ProductDTO insert(@Valid @RequestBody ProductDTO request);
 
     @PutMapping("/{productId}")
-    ResponseEntity<ProductDTO> update(
+    ProductDTO update(
             @PathVariable
             Long productId,
             @RequestBody
             @Valid ProductDTO request);
 
     @DeleteMapping("/{productId}")
-    ResponseEntity<Void> deleteById(@PathVariable Long productId);
+    void deleteById(@PathVariable Long productId);
+
+    @GetMapping("/batch")
+    List<ProductDTO> findAllByIds(@RequestParam List<Long> productIds);
+
 }

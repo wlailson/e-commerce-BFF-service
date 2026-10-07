@@ -17,31 +17,31 @@ public class IdentityService {
 
     private final IdentityClient client;
 
-    public ResponseEntity<UserResponseDTO> getUserById(Long userId) {
+    public UserResponseDTO getUserById(Long userId) {
         return client.getUserById(userId);
     }
 
-    public ResponseEntity<Page<UserResponseMinDTO>> getAllUsers(Pageable pageable) {
+    public Page<UserResponseMinDTO> getAllUsers(Pageable pageable) {
         return client.getAllUsers(pageable);
     }
 
-    public ResponseEntity<UserResponseDTO> getCurrentUser() {
+    public UserResponseDTO getCurrentUser() {
         return client.getCurrentUser();
     }
 
-    public ResponseEntity<UserResponseDTO> postUser(UserRequestDTO request) {
+    public UserResponseDTO postUser(UserRequestDTO request) {
         return client.postUser(request);
     }
 
-    public ResponseEntity<String> login(LoginRequestDTO request) {
+    public String login(LoginRequestDTO request) {
         return client.login(request);
     }
 
-    public ResponseEntity<UserResponseDTO> putUser(Long userId, UserRequestDTO request) {
+    public UserResponseDTO putUser(Long userId, UserRequestDTO request) {
         return client.putUser(userId, request);
     }
 
-    public ResponseEntity<Void> deleteUser(Long userId) {
-        return client.deleteUser(userId);
+    public void deleteUser(Long userId) {
+       client.deleteUser(userId);
     }
 }
