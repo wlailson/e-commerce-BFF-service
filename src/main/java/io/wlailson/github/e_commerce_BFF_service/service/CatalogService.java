@@ -9,30 +9,36 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class CatalogService {
 
     private final CatalogClient client;
 
-    public ResponseEntity<ProductDTO> findById(Long id) {
+    public ProductDTO findById(Long id) {
         return client.findById(id);
     }
 
-    public ResponseEntity<Page<ProductMinDTO>> findAll(String name, Pageable pageable) {
+    public List<ProductDTO> findAllByIds(List<Long> productIds) {
+        return client.findAllByIds(productIds);
+    }
+
+    public Page<ProductMinDTO> findAll(String name, Pageable pageable) {
         return client.findAll(name, pageable);
     }
 
-    public ResponseEntity<ProductDTO> insert(ProductDTO request) {
+    public ProductDTO insert(ProductDTO request) {
         return client.insert(request);
     }
 
-    public ResponseEntity<ProductDTO> update(Long productId, ProductDTO request) {
+    public ProductDTO update(Long productId, ProductDTO request) {
         return client.update(productId, request);
     }
 
-    public ResponseEntity<Void> deleteById(Long productId) {
-        return client.deleteById(productId);
+    public void deleteById(Long productId) {
+        client.deleteById(productId);
     }
 
 }
