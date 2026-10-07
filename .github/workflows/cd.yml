@@ -10,32 +10,27 @@ on:
       - reopened
 
   push:
-    branches:
-      - main
+    tags:
+      - 'v*'
+      - '[0-9]*'
+
+permissions:
+  contents: read
 
 jobs:
-  validate-source:
+  validate-pull-request:
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check source branch
+      - name: Require develop as the source branch
+        if: github.head_ref != 'develop'
         run: |
-          if [ "${{ github.head_ref }}" != "develop" ]; then
-            echo "Only pull requests from develop are allowed into main."
-            exit 1
-          fi
+          echo "Only pull requests from develop are allowed into main."
+          exit 1
 
-  docker:
-    if: github.event_name == 'push'
-    runs-on: ubuntu-latest
-
-    steps:
       - name: Checkout
         uses: actions/checkout@v7
-        with:
-          fetch-depth: 0
-          fetch-tags: true
 
       - name: Setup Java
         uses: actions/setup-java@v6
@@ -45,25 +40,40 @@ jobs:
           cache: maven
 
       - name: Run tests
-        run: ./mvnw test
+        run: ./mvnw --batch-mode verify
 
-      - name: Get latest Git tag
+  docker:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ github.ref }}
+
+      - name: Setup Java
+        uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: '25'
+          cache: maven
+
+      - name: Validate release tag
         id: version
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
         run: |
-          TAG=$(git tag --sort=-v:refname | head -n 1)
-
-          if [ -z "$TAG" ]; then
-            echo "Nenhuma tag de versão encontrada."
+          if [[ ! "$RELEASE_TAG" =~ ^v?(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$ ]]; then
+            echo "Release tag must use semantic version format MAJOR.MINOR.PATCH, optionally prefixed with v."
             exit 1
           fi
 
-          VERSION="${TAG#v}"
-
-          echo "Git tag: $TAG"
-          echo "Docker version: $VERSION"
-
-          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          VERSION="${RELEASE_TAG#v}"
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Run tests
+        run: ./mvnw --batch-mode verify
 
       - name: Login to Docker Hub
         uses: docker/login-action@v4

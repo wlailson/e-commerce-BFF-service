@@ -10,6 +10,35 @@ services:
     url: ${SERVICE_IDENTITY_URL}
   catalog:
     url: ${SERVICE_CATALOG_URL}
+  order:
+    url: ${SERVICE_ORDER_URL}
+  payment:
+    url: ${SERVICE_PAYMENT_URL}
+  analytics:
+    url: ${SERVICE_ANALYTICS_URL}
+
+management:
+  metrics:
+    tags:
+      application: prometheus-grafana
+
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health
+          - info
+          - prometheus
+          - logfile
+
+  endpoint:
+    health:
+      show-details: always
 
 jwt:
   public-key: ${JWT_PUBLIC_KEY}

@@ -26,25 +26,25 @@ import org.springframework.web.bind.annotation.RequestBody;
 public interface IdentityClient {
 
     @GetMapping("/{userId}")
-    ResponseEntity<UserResponseDTO> getUserById(@PathVariable Long userId);
+    UserResponseDTO getUserById(@PathVariable Long userId);
 
     @GetMapping
-    ResponseEntity<Page<UserResponseMinDTO>> getAllUsers(@SpringQueryMap Pageable pageable);
+    Page<UserResponseMinDTO> getAllUsers(@SpringQueryMap Pageable pageable);
 
     @GetMapping("/me")
-    ResponseEntity<UserResponseDTO> getCurrentUser();
+    UserResponseDTO getCurrentUser();
 
     @PostMapping
-    ResponseEntity<UserResponseDTO> postUser(@RequestBody UserRequestDTO request);
+    UserResponseDTO postUser(@RequestBody UserRequestDTO request);
 
     @PostMapping("/login")
-    ResponseEntity<String> login(@RequestBody LoginRequestDTO request);
+    String login(@RequestBody LoginRequestDTO request);
 
     @PutMapping("/{userId}")
-    ResponseEntity<UserResponseDTO> putUser(
+    UserResponseDTO putUser(
             @PathVariable Long userId,
             @RequestBody @Valid UserRequestDTO request);
 
     @DeleteMapping("/{userId}")
-    ResponseEntity<Void> deleteUser(@PathVariable Long userId);
+    void deleteUser(@PathVariable Long userId);
 }
