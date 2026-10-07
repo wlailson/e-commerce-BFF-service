@@ -7,15 +7,15 @@ server:
 
 services:
   identity:
-    url: ${SERVICE_IDENTITY_URL}
+    url: ${SERVICE_IDENTITY_URL:http://localhost:8081}
   catalog:
-    url: ${SERVICE_CATALOG_URL}
+    url: ${SERVICE_CATALOG_URL:http://localhost:8082}
   order:
-    url: ${SERVICE_ORDER_URL}
+    url: ${SERVICE_ORDER_URL:http://localhost:8083}
   payment:
-    url: ${SERVICE_PAYMENT_URL}
+    url: ${SERVICE_PAYMENT_URL:http://localhost:8084}
   analytics:
-    url: ${SERVICE_ANALYTICS_URL}
+    url: ${SERVICE_ANALYTICS_URL:http://localhost:8085}
 
 management:
   metrics:
