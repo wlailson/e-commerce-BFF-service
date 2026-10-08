@@ -2,6 +2,10 @@
 
 O projeto implementa uma plataforma de comércio eletrônico distribuída em seis serviços Spring Boot. Este repositório contém o **Backend for Frontend (BFF)**, que expõe uma API única para os clientes e encaminha as solicitações aos serviços de domínio. Cada serviço está em seu próprio repositório.
 
+## Swagger
+
+[📚 Acessar Swagger](https://wlailson.github.io/e-commerce-BFF-service/)
+
 ## Arquitetura
 
 ```mermaid
